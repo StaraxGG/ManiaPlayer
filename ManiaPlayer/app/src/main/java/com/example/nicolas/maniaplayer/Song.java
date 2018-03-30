@@ -8,11 +8,15 @@ public class Song {
     private String titel;
     private String interpret;
     private int imageResourceId;
+    private int audioResourceId;
 
-    public Song(String titel, String interpret, int imageResourceId) {
+
+
+    public Song(String titel, String interpret, int imageResourceId, int audioResourceId) {
         this.titel = titel;
         this.interpret = interpret;
         this.imageResourceId = imageResourceId;
+        this.audioResourceId = audioResourceId;
 
     }
     public String getTitel() {
@@ -25,5 +29,9 @@ public class Song {
 
     public int getImageResourceId() {
         return imageResourceId;
+    }
+
+    public int getAudioResourceId() {
+        return audioResourceId;
     }
 }
