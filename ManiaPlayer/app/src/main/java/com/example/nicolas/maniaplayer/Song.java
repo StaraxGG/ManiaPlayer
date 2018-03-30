@@ -5,16 +5,25 @@ package com.example.nicolas.maniaplayer;
  */
 
 public class Song {
-    private String mTitel;
-    private String mInterpret;
-    private int mCoverID;
+    private String titel;
+    private String interpret;
+    private int imageResourceId;
 
+    public Song(String titel, String interpret, int imageResourceId) {
+        this.titel = titel;
+        this.interpret = interpret;
+        this.imageResourceId = imageResourceId;
 
-    public Song(String mTitel, String mInterpret, int mCoverID) {
-        this.mTitel = mTitel;
-        this.mInterpret = mInterpret;
-        this.mCoverID = mCoverID;
+    }
+    public String getTitel() {
+        return titel;
+    }
+
+    public String getInterpret() {
+        return interpret;
+    }
+
+    public int getImageResourceId() {
+        return imageResourceId;
     }
 }
-
-
