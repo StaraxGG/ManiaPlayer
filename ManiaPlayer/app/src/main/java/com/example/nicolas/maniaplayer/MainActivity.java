@@ -12,9 +12,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //TODO crashing with viewmanager and tablayout set up
         ViewPager viewPager = (ViewPager) findViewById(R.id.ViewPager);
         FragmentMusicAdapter fma = new FragmentMusicAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fma);
+
 
         TabLayout tablayout = (TabLayout) findViewById(R.id.TabLayout);
         tablayout.setupWithViewPager(viewPager);

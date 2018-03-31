@@ -12,13 +12,19 @@ public class Song {
 
 
 
-    public Song(String titel, String interpret, int imageResourceId, int audioResourceId) {
+  /*  public Song(String titel, String interpret, int imageResourceId, int audioResourceId) {
         this.titel = titel;
         this.interpret = interpret;
         this.imageResourceId = imageResourceId;
         this.audioResourceId = audioResourceId;
 
+    }*/
+
+    public Song(String titel, String interpret) {
+        this.titel = titel;
+        this.interpret = interpret;
     }
+
     public String getTitel() {
         return titel;
     }

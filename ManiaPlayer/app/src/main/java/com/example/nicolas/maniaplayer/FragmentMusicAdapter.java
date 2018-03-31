@@ -16,20 +16,23 @@ public class FragmentMusicAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return null;
+        //TODO add other fragments
+        switch(position){
+            default: return new TitelFragment();
+        }
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 1;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position){
-            case 0: return "Titel";
-            case 1: return "Album";
-            default: return  "Interpret";
+            default: return "Titel";
+           /* case 1: return "Album";
+            default: return  "Interpret";*/
         }
     }
 }

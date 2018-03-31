@@ -78,33 +78,6 @@ public class TitelFragment extends Fragment {
                     }
                 }
             };
-    /*
-    private AudioManager.OnAudioFocusChangeListener mAudioFocusChangeListener1 =
-            new AudioManager.OnAudioFocusChangeListener() {
-                public void onAudioFocusChange(int focuschange) {
-                    switch (focuschange) {
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                            audioFocusLoss();
-                            break;
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                            audioFocusLoss();
-                            break;
-                        case AudioManager.AUDIOFOCUS_GAIN:
-                            mMediaPlayer.start();
-                            break;
-                        case AudioManager.AUDIOFOCUS_LOSS:
-                            releaseMediaPlayer();
-                            break;
-                        default:
-                            audioFocusLoss();
-                    }
-                }
-                public void audioFocusLoss(){
-                    mMediaPlayer.pause();
-                    mMediaPlayer.seekTo(0);
-                }
-    };
-    */
 
 
     public void releaseMediaPlayer(){
@@ -151,9 +124,13 @@ public class TitelFragment extends Fragment {
         //AudioFocus Stuff -----------------------------------------------------
 
         final ArrayList<Song> songs = new ArrayList<>();
-        songs.add(new Song("AMG","Fler",R.drawable.fler, R.raw.amg));
+        /*songs.add(new Song("AMG","Fler",R.drawable.fler, R.raw.amg));
         songs.add(new Song("Flizzy","Fler",R.drawable.flizzy, R.raw.amg));
-        songs.add(new Song("Meister Yoda","Fler",R.drawable.azet, R.raw.amg));
+        songs.add(new Song("Meister Yoda","Fler",R.drawable.azet, R.raw.amg));*/
+
+        songs.add(new Song("AMG","Fler"));
+        songs.add(new Song("Flizzy","Fler"));
+        songs.add(new Song("Meister Yoda","Fler"));
 
         SongAdapter songAdapter = new SongAdapter(getActivity(),songs);
 
@@ -174,9 +151,9 @@ public class TitelFragment extends Fragment {
                     } else if (res == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                         mPlaybackDelayed = false;
                         //playbackNow();
-                        mMediaPlayer = MediaPlayer.create(getActivity(), song.getAudioResourceId());
-                        mMediaPlayer.start();
-                        mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                        //mMediaPlayer = MediaPlayer.create(getActivity(), song.getAudioResourceId());
+                        //mMediaPlayer.start();
+                        //mMediaPlayer.setOnCompletionListener(mCompletionListener);
                     } else if (res == AudioManager.AUDIOFOCUS_REQUEST_DELAYED) {
                         mPlaybackDelayed = true;
                     }

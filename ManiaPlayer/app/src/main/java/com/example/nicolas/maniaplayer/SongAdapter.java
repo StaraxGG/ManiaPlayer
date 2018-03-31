@@ -50,7 +50,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
         // Find the ImageView in the list_item.xml layout with the ID image.
         ImageView imageView = (ImageView) listItemView.findViewById(R.id.image);
         // Check if an image is provided for this word or not
-        imageView.setImageResource(currentSong.getImageResourceId());
+        //imageView.setImageResource(currentSong.getImageResourceId());
         // Make sure the view is visible
         imageView.setVisibility(View.VISIBLE);
 
