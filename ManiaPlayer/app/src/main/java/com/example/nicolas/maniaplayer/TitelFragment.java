@@ -39,6 +39,7 @@ public class TitelFragment extends Fragment {
         }
     };
 
+    //TODO make own AudioFocusChangeListener Class 
     // implementation of the OnAudioFocusChangeListener
     private AudioManager.OnAudioFocusChangeListener mAudioFocusChangeListener1 =
             new AudioManager.OnAudioFocusChangeListener() {
