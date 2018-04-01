@@ -28,17 +28,14 @@ public class TitelFragment extends Fragment {
             new AudioManager.OnAudioFocusChangeListener() {
                 public void onAudioFocusChange(int focuschange) {
                     switch (focuschange) {
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                            audioFocusLoss();
-                            break;
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                            audioFocusLoss();
-                            break;
                         case AudioManager.AUDIOFOCUS_GAIN:
                             mMediaPlayer.start();
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS:
                             releaseMediaPlayer();
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                            audioFocusLoss();
                             break;
                         default:
                             audioFocusLoss();
