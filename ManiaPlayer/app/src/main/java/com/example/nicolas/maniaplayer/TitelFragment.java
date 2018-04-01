@@ -151,9 +151,9 @@ public class TitelFragment extends Fragment {
         //AudioFocus Stuff -----------------------------------------------------
 
         final ArrayList<Song> songs = new ArrayList<>();
-        songs.add(new Song("AMG","Fler",R.drawable.fler, R.raw.amg));
-        songs.add(new Song("Flizzy","Fler",R.drawable.flizzy, R.raw.amg));
-        songs.add(new Song("Meister Yoda","Fler",R.drawable.azet, R.raw.amg));
+        songs.add(new Song("AMG","Fler",R.mipmap.ic_launcher_round));
+        songs.add(new Song("Flizzy","Fler",R.mipmap.ic_launcher_round));
+        songs.add(new Song("Meister Yoda","Fler",R.mipmap.ic_launcher_round));
 
         SongAdapter songAdapter = new SongAdapter(getActivity(),songs);
 
@@ -174,9 +174,9 @@ public class TitelFragment extends Fragment {
                     } else if (res == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                         mPlaybackDelayed = false;
                         //playbackNow();
-                        mMediaPlayer = MediaPlayer.create(getActivity(), song.getAudioResourceId());
-                        mMediaPlayer.start();
-                        mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                        //mMediaPlayer = MediaPlayer.create(getActivity(), song.getAudioResourceId());
+                        //mMediaPlayer.start();
+                        //mMediaPlayer.setOnCompletionListener(mCompletionListener);
                     } else if (res == AudioManager.AUDIOFOCUS_REQUEST_DELAYED) {
                         mPlaybackDelayed = true;
                     }

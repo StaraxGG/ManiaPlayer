@@ -8,8 +8,7 @@
     <ImageView
         android:id="@+id/cover"
         android:layout_width="88dp"
-        android:layout_height="88dp"
-        android:src="@drawable/fler"/>
+        android:layout_height="88dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +16,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/cover"
         android:orientation="vertical"
         android:paddingLeft="16dp">
 
@@ -49,6 +47,5 @@
         android:layout_height="24dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:paddingRight="16dp"
-        android:src="@drawable/ic_play_arrow_white_24dp" />
+        android:paddingRight="16dp" />
 </RelativeLayout>
