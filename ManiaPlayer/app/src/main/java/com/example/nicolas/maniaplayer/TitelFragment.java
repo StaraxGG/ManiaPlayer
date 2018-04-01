@@ -73,36 +73,10 @@ public class TitelFragment extends Fragment {
                             }
                             //pausePlayback();
                             mMediaPlayer.pause();
-                            mMediaPlayer.seekTo(0);
                             break;
                     }
                 }
             };
-    /*
-    private AudioManager.OnAudioFocusChangeListener mAudioFocusChangeListener1 =
-            new AudioManager.OnAudioFocusChangeListener() {
-                public void onAudioFocusChange(int focuschange) {
-                    switch (focuschange) {
-                        case AudioManager.AUDIOFOCUS_GAIN:
-                            mMediaPlayer.start();
-                            break;
-                        case AudioManager.AUDIOFOCUS_LOSS:
-                            releaseMediaPlayer();
-                            break;
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                            audioFocusLoss();
-                            break;
-                        default:
-                            audioFocusLoss();
-                    }
-                }
-                public void audioFocusLoss(){
-                    mMediaPlayer.pause();
-                    mMediaPlayer.seekTo(0);
-                }
-    };
-    */
-
 
     public void releaseMediaPlayer(){
         if (mMediaPlayer != null){
@@ -123,11 +97,10 @@ public class TitelFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.song_list,container,false);
 
-        //AudioFocus Stuff -----------------------------------------------------
-
         mAudioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
 
-        // initialization of the audio attributes and focus request
+        //TODO could be at wrong spot
+        /** Sets Audio Attributes */
         mPlaybackAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
@@ -143,14 +116,10 @@ public class TitelFragment extends Fragment {
 
         mPlaybackDelayed = false;
 
-
-
-        //AudioFocus Stuff -----------------------------------------------------
-
         final ArrayList<Song> songs = new ArrayList<>();
-        songs.add(new Song("AMG","Fler",R.mipmap.ic_launcher_round));
-        songs.add(new Song("Flizzy","Fler",R.mipmap.ic_launcher_round));
-        songs.add(new Song("Meister Yoda","Fler",R.mipmap.ic_launcher_round));
+        songs.add(new Song("AMG","Fler",R.drawable.fler, R.raw.amg));
+        songs.add(new Song("Flizzy","Fler",R.drawable.flizzy, R.raw.amg));
+        songs.add(new Song("Meister Yoda","Fler",R.drawable.azet, R.raw.amg));
 
         SongAdapter songAdapter = new SongAdapter(getActivity(),songs);
 
@@ -171,9 +140,9 @@ public class TitelFragment extends Fragment {
                     } else if (res == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                         mPlaybackDelayed = false;
                         //playbackNow();
-                        //mMediaPlayer = MediaPlayer.create(getActivity(), song.getAudioResourceId());
-                        //mMediaPlayer.start();
-                        //mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                        mMediaPlayer = MediaPlayer.create(getActivity(), song.getAudioResourceId());
+                        mMediaPlayer.start();
+                        mMediaPlayer.setOnCompletionListener(mCompletionListener);
                     } else if (res == AudioManager.AUDIOFOCUS_REQUEST_DELAYED) {
                         mPlaybackDelayed = true;
                     }
