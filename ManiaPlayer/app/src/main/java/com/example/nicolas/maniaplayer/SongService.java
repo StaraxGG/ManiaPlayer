@@ -1,30 +1,16 @@
 package com.example.nicolas.maniaplayer;
 
-
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.app.Service;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 
-import java.util.ArrayList;
-
-import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK;
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class TitelFragment extends Fragment {
+public class SongService extends Service implements MediaPlayer.OnPreparedListener {
 
     private MediaPlayer mMediaPlayer;
     private AudioManager mAudioManager;
@@ -41,7 +27,6 @@ public class TitelFragment extends Fragment {
         }
     };
 
-    // implementation of the OnAudioFocusChangeListener
     private AudioManager.OnAudioFocusChangeListener mAudioFocusChangeListener1 =
             new AudioManager.OnAudioFocusChangeListener() {
                 public void onAudioFocusChange(int focusChange) {
@@ -80,28 +65,20 @@ public class TitelFragment extends Fragment {
                 }
             };
 
-    public void releaseMediaPlayer(){
-        if (mMediaPlayer != null){
-            mMediaPlayer.release();
-            mMediaPlayer = null;
-            mAudioManager.abandonAudioFocusRequest(mFocusRequest);
-        }
-
+    public SongService() {
     }
 
-    public TitelFragment() {
-        // Required empty public constructor
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
-
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.song_list,container,false);
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
-        mAudioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
-        //TODO could be at wrong spot
         /** Sets Audio Attributes */
         mPlaybackAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -116,57 +93,46 @@ public class TitelFragment extends Fragment {
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setAudioAttributes(mPlaybackAttributes);
 
-        mPlaybackDelayed = false;
 
-        final ArrayList<Song> songs = new ArrayList<>();
-        songs.add(new Song("AMG","Fler",R.drawable.fler, R.raw.amg));
-        songs.add(new Song("Flizzy","Fler",R.drawable.flizzy, R.raw.amg));
-        songs.add(new Song("Meister Yoda","Fler",R.drawable.azet, R.raw.amg));
+        int res = mAudioManager.requestAudioFocus(mFocusRequest);
+        synchronized (mFocusLock) {
+            if (res == AudioManager.AUDIOFOCUS_REQUEST_FAILED) {
+                mPlaybackDelayed = false;
+            } else if (res == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                mPlaybackDelayed = false;
+                playbackNow();
 
-        SongAdapter songAdapter = new SongAdapter(getActivity(),songs);
-
-        ListView listView = (ListView) rootView.findViewById(R.id.list);
-        listView.setAdapter(songAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                /** Media Player Service Test */
-
-                getActivity().startService(new Intent(getActivity(), SongService.class));
-
-                /** Test Ende */
-
-                releaseMediaPlayer();
-                Song song = songs.get(position);
-
-                // requesting audio focus
-                int res = mAudioManager.requestAudioFocus(mFocusRequest);
-                synchronized (mFocusLock) {
-                    if (res == AudioManager.AUDIOFOCUS_REQUEST_FAILED) {
-                        mPlaybackDelayed = false;
-                    } else if (res == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                        mPlaybackDelayed = false;
-                        //playbackNow();
-                        //mMediaPlayer = MediaPlayer.create(getActivity(), song.getAudioResourceId());
-                        //mMediaPlayer.start();
-                        //mMediaPlayer.setOnCompletionListener(mCompletionListener);
-                    } else if (res == AudioManager.AUDIOFOCUS_REQUEST_DELAYED) {
-                        mPlaybackDelayed = true;
-                    }
-                }
-
+            } else if (res == AudioManager.AUDIOFOCUS_REQUEST_DELAYED) {
+                mPlaybackDelayed = true;
             }
-        });
+        }
+        return START_STICKY;
+    }
 
-
-        return rootView;
+    public void playbackNow(){
+        mMediaPlayer = MediaPlayer.create(this, R.raw.amg);
+        //mMediaPlayer.setOnPreparedListener(this);
+        //mMediaPlayer.prepareAsync();
+        onPrepared(mMediaPlayer);
+    }
+    @Override
+    public void onPrepared(MediaPlayer mMediaPlayer) {
+        mMediaPlayer.setOnCompletionListener(mCompletionListener);
+        mMediaPlayer.start();
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         releaseMediaPlayer();
+    }
+
+    public void releaseMediaPlayer(){
+        if (mMediaPlayer != null){
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+            mAudioManager.abandonAudioFocusRequest(mFocusRequest);
+        }
+
     }
 }
